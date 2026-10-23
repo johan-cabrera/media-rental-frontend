@@ -40,22 +40,22 @@ NUXT_PUBLIC_API_BASE=http://localhost:8000/api
 
 ## Comando para correr el proyecto
 
-**Desarrollo** | `npm run dev` | Inicia el servidor local con Hot Reload en `http://localhost:3000` |
+ `npm run dev` | Inicia el servidor local con Hot Reload en `http://localhost:3000`
 
 
 ## Explicacion de decisiones tecnicas
 
 * **Enrutamiento Explicito (`app/router.options.js`):**  
-  Se configuró el enrutador manualmente para evitar colisiones entre rutas fijas y dinámicas.
+  Configure el enrutador manualmente para evitar colisiones entre rutas fijas y dinámicas.
 
 * **Integración de FullCalendar v6 del Lado del Cliente:**  
-  Se utilizo la suite `@fullcalendar/vue3` (v6.1.15) junto con los plugins `@fullcalendar/daygrid` y `@fullcalendar/interaction`. Para el manejo de la interfaz del calendario.
+  Utilice la suite `@fullcalendar/vue3` (v6.1.15) junto con los plugins `@fullcalendar/daygrid` y `@fullcalendar/interaction`. para el manejo de la interfaz del calendario.
 
 * **Optimización de Carga de Reservas por Rango de fechas:**  
-  En lugar de utilizar peticiones paginadas, se utilizan las propiedades `startStr` y `endStr` provistas por FullCalendar para consultar a la API (`GET /api/bookings/calendar`) unicamente los eventos comprendidos dentro del mes visualizado en pantalla.
+  En lugar de utilizar peticiones paginadas, use las propiedades `startStr` y `endStr` provistas por FullCalendar para consultar a la API (`GET /api/bookings/calendar`) unicamente los eventos comprendidos dentro del mes visualizado en pantalla.
 
 * **Modularización de Consumo HTTP (`~/services` y composable `useApi`):**  
-  Se centralizaron las operaciones hacia el backend en capas de servicio dedicadas (`bookingService`, `mediaService`), abstrayendo las llamadas HTTP y reutilizando la gestion de tokens de sesion y encabezados de autorizacion.
+  Utilice capas de servicio dedicadas, abstrayendo las llamadas HTTP y reutilizando la gestion de tokens de sesion y encabezados de autorizacion.
 
 * **Exportación de Reportes CSV en Memoria:**  
-  La funcionalidad de exportacion consume el flujo de datos del backend transformandolo en un objeto `Blob` con tipo `text/csv`, forzando la descarga directa en el navegador a traves de un enlace dinamico temporal, evitando redirecciones o recargas innecesarias de pagina.
+  Obtengo el flujo de datos del backend y lo transformo en un objeto `Blob` con tipo `text/csv`, para forzar la descarga directa en el navegador a traves de un enlace dinamico temporal, para evitar redirecciones o recargas innecesarias.
