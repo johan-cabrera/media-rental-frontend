@@ -62,6 +62,11 @@ export default {
 
     // Modulo de reservas
     {
+      name: 'bookings-calendar',
+      path: '/bookings/calendar',
+      component: () => import('~/pages/bookings/calendar.vue')
+    },
+    {
       name: 'bookings-index',
       path: '/bookings',
       component: () => import('~/pages/bookings/index.vue')

@@ -5,7 +5,6 @@
         Volver a Reservas
       </NuxtLink>
       <h1 class="text-2xl font-bold text-slate-900 mt-2">Nueva Reserva</h1>
-      <p class="text-sm text-slate-500">Asigna un espacio publicitario durante un periodo especifico.</p>
     </div>
 
     <div v-if="generalError" class="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-xl">

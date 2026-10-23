@@ -5,7 +5,25 @@
       <div>
         <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Gestion de Reservas</h1>
       </div>
-      <div class="mt-4 sm:mt-0">
+      <div class="mt-4 sm:mt-0 flex gap-4">
+
+        <NuxtLink
+          to="/bookings/calendar"
+          class="inline-flex items-center px-3 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-lg shadow-sm transition"
+        >
+          Ver Calendario
+        </NuxtLink>
+
+        <button
+          type="button"
+          :disabled="exporting"
+          class="inline-flex items-center px-3 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-lg shadow-sm transition disabled:opacity-50"
+          @click="handleDownloadExport"
+        >
+          <span v-if="exporting">Descargando...</span>
+          <span v-else>Exportar CSV</span>
+        </button>
+
         <NuxtLink
           to="/bookings/create"
           class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-sm transition"
@@ -172,6 +190,7 @@
     const statusFilter = ref('')
     const deletingId = ref(null)
     const updatingId = ref(null)
+    const exporting = ref(false)
 
     // Peticion conectada a useApi mediante el servicio y useAsyncData
     const { data, pending, error, refresh } = await useAsyncData(
@@ -192,6 +211,37 @@
     watch(statusFilter, () => {
       page.value = 1
     })
+
+    // Exportacion de csv
+    const handleDownloadExport = async () => {
+      exporting.value = true
+
+      try {
+        // autenticar la peticion
+        const blobData = await service.downloadExport({
+          status: statusFilter.value || undefined
+        })
+
+        // Crear un objeto URL en memoria
+        const blob = new Blob([blobData], { type: 'text/csv;charset=utf-8;' })
+        const url = window.URL.createObjectURL(blob)
+
+        // Crear enlace temporal y simular click
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', `reservas_${new Date().toISOString().slice(0, 10)}.csv`)
+        document.body.appendChild(link)
+        link.click()
+
+        //Limpiar del DOM y memoria
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+      } catch (err) {
+        alert(err.message || 'Error al descargar el archivo de reservas.')
+      } finally {
+        exporting.value = false
+      }
+    }
 
     // Cambio rapido de estado
     const updateBookingStatus = async (id, newStatus) => {

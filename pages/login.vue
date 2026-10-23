@@ -6,9 +6,6 @@
         <h1 class="text-xl font-bold tracking-tight text-slate-900">
           Media Rental
         </h1>
-        <p class="mt-1 text-xs text-slate-500">
-          Ingresa tus credenciales para acceder al sistema
-        </p>
       </div>
     </div>
 
