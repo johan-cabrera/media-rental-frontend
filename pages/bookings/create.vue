@@ -101,11 +101,11 @@
       end_date: ''
     })
 
-    // Carga simultanea de clientes y medios activos usando useAsyncData
+    // Cargar clientes y medios activos usando useAsyncData
     const { data: initialData } = await useAsyncData('new-booking-dependencies', async () => {
       const [cRes, mRes] = await Promise.all([
-        customerService().getAll(),
-        mediaService().getAll({ status: 'active' })
+        customerService().getAll({ all: true }),
+        mediaService().getAll({ status: 'active', all: true })
       ])
 
       return {

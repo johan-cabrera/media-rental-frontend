@@ -49,9 +49,6 @@
           <button class="px-3 py-1.5 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 transition" @click="selectedBooking = null">
             Cerrar
           </button>
-          <NuxtLink :to="`/bookings/${selectedBooking.id}`" :prefetch="false" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition">
-            Ver Ficha Completa
-          </NuxtLink>
         </div>
       </div>
     </div>
